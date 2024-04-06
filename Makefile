@@ -15,7 +15,7 @@ OPTIMIZATION_LVL=0
 CFLAGS= -c -mcpu=$(CPU) -mthumb -std=$(CSTAND) -O$(OPTIMIZATION_LVL)
 
 # all 
-all:main.o led.o
+all:clean main.o led.o stm32_startup.o
 
 # Create main.o (Relocatable file)
 main.o:main.c
@@ -28,3 +28,12 @@ main.o:main.c
 # Create led.o (Relocatable file)
 led.o:led.c
 	$(CC) $(CFLAGS) -o $@ $^
+
+# Create stm32_startup.o (Relocatable file)
+stm32_startup.o:stm32_startup.c
+	$(CC) $(CFLAGS) -o $@ $^
+
+.PHONY: clean
+clean:
+#	rm -f *.o main.o led.o stm32_startup.o
+	del /S *.o
