@@ -11,7 +11,7 @@ void Reset_Handler(void);
 
 uint32_t vectors[]={
     STACK_START,
-    (uint32_t)&Reset_Handler,
+    (uint32_t)(&Reset_Handler),
 };
 
 void Reset_Handler(void){}

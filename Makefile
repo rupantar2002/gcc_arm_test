@@ -12,10 +12,10 @@ OPTIMIZATION_LVL=0
 
 
 # Compiler flags
-CFLAGS= -c -mcpu=$(CPU) -mthumb -std=$(CSTAND) -O$(OPTIMIZATION_LVL)
+CFLAGS= -c -mcpu=$(CPU) -mthumb -std=$(CSTAND) -O$(OPTIMIZATION_LVL) -Wall
 
 # all 
-all:clean main.o led.o stm32_startup.o
+
 
 # Create main.o (Relocatable file)
 main.o:main.c
@@ -35,5 +35,4 @@ stm32_startup.o:stm32_startup.c
 
 .PHONY: clean
 clean:
-#	rm -f *.o main.o led.o stm32_startup.o
-	del /S *.o
+	rm -rf *.o *.elf
