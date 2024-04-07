@@ -14,8 +14,11 @@ OPTIMIZATION_LVL=0
 # Compiler flags
 CFLAGS= -c -mcpu=$(CPU) -mthumb -std=$(CSTAND) -O$(OPTIMIZATION_LVL) -Wall
 
+# Linker flags
+LDFLAGS = -nostdlib  -T stm32_ls.ld -Wl,-Map=final.map
+
 # all 
-all:clean main.o led.o stm32_startup.o
+all:clean main.o led.o stm32_startup.o final.elf
 
 # Create main.o (Relocatable file)
 main.o:main.c
@@ -33,6 +36,15 @@ led.o:led.c
 stm32_startup.o:stm32_startup.c
 	$(CC) $(CFLAGS) -o $@ $^
 
+# Create final.elf (executable binary)
+final.elf: main.o led.o stm32_startup.o 
+	$(CC) $(LDFLAGS) -o $@ $^
+
 .PHONY: clean
 clean:
 	rm -rf *.o *.elf
+
+.PHONY: objdump
+objdump:
+	arm-none-eabi-objdump.exe -h final.elf
+
