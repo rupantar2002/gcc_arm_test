@@ -37,6 +37,7 @@ uint32_t g_tick_count = 0;
 const uint32_t const_v_1 = 100;
 const uint32_t const_v_2 = 100;
 const uint8_t const_V_3 = 100;
+
 typedef struct
 {
     uint32_t psp_value;
