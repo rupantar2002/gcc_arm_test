@@ -27,8 +27,12 @@ SECTIONS
     .bss :
     {
         _sbss = .; /* Start of .bss section */
+        __bss_start__ = _sbss; /* Required for stdlib */
         *(.bss)
         _ebss = .; /* End of .bss   section */
+        __bss_end__ = _ebss; /* Required for stdlib */
+        . = ALIGN(4);
+        end = .;/* Required for stdlib heap start */
     }> SRAM 
 
 }

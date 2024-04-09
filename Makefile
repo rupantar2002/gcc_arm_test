@@ -14,11 +14,12 @@ OPTIMIZATION_LVL=0
 # Compiler flags
 CFLAGS= -c -mcpu=$(CPU) -mthumb -std=$(CSTAND) -O$(OPTIMIZATION_LVL) -Wall
 
+
 # Linker flags
-LDFLAGS = -nostdlib  -T stm32_ls.ld -Wl,-Map=final.map
+LDFLAGS = --specs=nano.specs  -T stm32_ls.ld -Wl,-Map=final.map
 
 # all 
-all: main.o led.o stm32_startup.o final.elf
+all: main.o led.o stm32_startup.o syscalls.o final.elf
 
 # Create main.o (Relocatable file)
 main.o:main.c
@@ -36,8 +37,12 @@ led.o:led.c
 stm32_startup.o:stm32_startup.c
 	$(CC) $(CFLAGS) -o $@ $^
 
+# Create syscalls.o (Relocatable file)
+syscalls.o:syscalls.c
+	$(CC) $(CFLAGS) -o $@ $^
+
 # Create final.elf (executable binary)
-final.elf: main.o led.o stm32_startup.o 
+final.elf: main.o led.o stm32_startup.o syscalls.o
 	$(CC) $(LDFLAGS) -o $@ $^
 
 .PHONY: clean
