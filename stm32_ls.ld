@@ -20,7 +20,8 @@ SECTIONS
         . = ALIGN(4);
         _etext = .; /* Store the value of '.' i.e Location Counter in symbol _etext */
     }>FLASH
-
+    
+    _la_data = LOADADDR(.data);
     .data :
     {
         _sdata = .; /* Start of .data section */
@@ -38,7 +39,8 @@ SECTIONS
         _ebss = .; /* End of .bss   section */
         __bss_end__ = _ebss; /* Required for stdlib */
         . = ALIGN(4);
-        end = .;/* Required for stdlib heap start */
+        end = .; /* Required for stdlib heap start */
+        __end__ = .; /* Required for semihosting */
     }> SRAM 
 
 }

@@ -12,14 +12,21 @@ OPTIMIZATION_LVL=0
 
 
 # Compiler flags
-CFLAGS= -c -mcpu=$(CPU) -mthumb -std=$(CSTAND) -O$(OPTIMIZATION_LVL) -Wall
+CFLAGS= -c -mcpu=$(CPU) -mthumb -mfloat-abi=soft -std=$(CSTAND) -O$(OPTIMIZATION_LVL) -Wall
 
 
-# Linker flags
-LDFLAGS = --specs=nano.specs  -T stm32_ls.ld -Wl,-Map=final.map
+# Linker flags 
+LDFLAGS = -mcpu=$(CPU) -mthumb --specs=nano.specs  -T stm32_ls.ld -Wl,-Map=final.map
+
+# Linker flags (Semihopsting)
+LDFLAGS_SH = -mcpu=$(CPU) -mthumb --specs=rdimon.specs  -T stm32_ls.ld -Wl,-Map=final.map
+
 
 # all 
 all: main.o led.o stm32_startup.o syscalls.o final.elf
+
+# semi 
+semi: main.o led.o stm32_startup.o final_sh.elf
 
 # Create main.o (Relocatable file)
 main.o:main.c
@@ -44,6 +51,10 @@ syscalls.o:syscalls.c
 # Create final.elf (executable binary)
 final.elf: main.o led.o stm32_startup.o syscalls.o
 	$(CC) $(LDFLAGS) -o $@ $^
+
+# Create final.elf (executable binary)
+final_sh.elf: main.o led.o stm32_startup.o 
+	$(CC) $(LDFLAGS_SH) -o $@ $^
 
 .PHONY: clean
 clean:
