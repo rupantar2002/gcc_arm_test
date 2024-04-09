@@ -14,6 +14,10 @@ extern uint32_t  _edata;
 extern uint32_t  _sbss;
 extern uint32_t  _ebss;
 
+// init stdlib
+void __libc_init_array();
+
+
 // main
 int main(void);
 
@@ -234,6 +238,9 @@ void Reset_Handler(void){
 	for( i=0 ; i < size ; i++){
 		*pDest++ = 0;
 	}
+
+	// init std lib
+	__libc_init_array();
 
 	// call main
 	main();
