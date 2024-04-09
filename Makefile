@@ -48,3 +48,7 @@ clean:
 objdump:
 	arm-none-eabi-objdump.exe -h final.elf
 
+.PHONY: load
+load:
+	openocd -f board/stm32f4discovery.cfg
+

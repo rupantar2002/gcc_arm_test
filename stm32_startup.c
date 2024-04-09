@@ -221,7 +221,7 @@ void Reset_Handler(void){
 	uint32_t i,size;
 
     // copy .data section to SRAM
-	size = (&_edata)-(&_sdata);
+	size = (uint32_t)&_edata-(uint32_t)&_sdata;
 	uint8_t *pDest=(uint8_t *)&_sdata;
 	uint8_t *pSrc=(uint8_t *)&_etext;
 	for( i=0 ; i < size ; i++){
